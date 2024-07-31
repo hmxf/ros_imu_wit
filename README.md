@@ -51,7 +51,7 @@
    5. 打开终端，运行launch文件
 
       ```bash
-      roslaunch ros_imu_wit display_and_imu.launch
+      roslaunch ros_imu_wit rviz_and_imu.launch
       ```
    
       打开若干新终端并分别输入下面几行命令
