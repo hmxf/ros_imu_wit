@@ -11,16 +11,14 @@ import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    print('IMU 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 IMU 对应的串口')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
-
 
 angularVelocity = [0, 0, 0]
 acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
-
 
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
@@ -34,11 +32,11 @@ if __name__ == "__main__":
     baudrate = 9600
 
     try:
-        wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
-        if wt_imu.isOpen():
+        imu_wt = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
+        if imu_wt.isOpen():
             print("\033[32mport open success...\033[0m")
         else:
-            wt_imu.open()
+            imu_wt.open()
             print("\033[32mport open success...\033[0m")
     except Exception as e:
         print(e)
@@ -46,7 +44,7 @@ if __name__ == "__main__":
         exit(0)
     else:
         
-        master = modbus_rtu.RtuMaster(wt_imu)
+        master = modbus_rtu.RtuMaster(imu_wt)
         master.set_timeout(0.1)
         master.set_verbose(True)
         while True:

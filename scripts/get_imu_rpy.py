@@ -12,7 +12,6 @@ def callback(data):
     #由于是弧度制，下面将其改成角度制看起来更方便
     rospy.loginfo("Roll = %8.3f, Pitch = %8.3f, Yaw = %8.3f",r*180/3.1415926,p*180/3.1415926,y*180/3.1415926)
 
-
 def get_imu():
     rospy.init_node('get_imu', anonymous=True)
     rospy.Subscriber("/wit/imu", Imu, callback) #接受topic名称

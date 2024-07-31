@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(wit_ros_imu)
+project(ros_imu_wit)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp

@@ -9,20 +9,17 @@ import sys
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('linux默认串口为 /dev/ttyUSB0,windows中默认串口为COM3, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    print('Linux 默认串口为 /dev/ttyUSB0，Windows 中默认串口为COM3，若识别多个串口设备，请在 launch 文件中修改 IMU 对应的串口')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
-
 
 # 校验
 def checkSum(list_data, check_data):
     return sum(list_data) & 0xff == check_data
 
-
 # 16 进制转 ieee 浮点数
 def hex_to_short(raw_data):
     return list(struct.unpack("hhhh", bytearray(raw_data)))
-
 
 # 处理串口数据
 def handleSerialData(raw_data):
@@ -110,23 +107,21 @@ def showText(text):
     show_text.delete(0.0, tk.END)  # 删除
     show_text.insert(tk.INSERT, text)  # 插入
 
-
-def loopData(wt_imu):
+def loopData(imu_wt):
     while True:
         try:
-            buff_count = wt_imu.inWaiting()
+            buff_count = imu_wt.inWaiting()
         except Exception as e:
             print("exception:" + str(e))
-            print("imu 失去连接，接触不良，或断线")
+            print("IMU 失去连接，接触不良，或断线")
             showText('传入showtext数据后，会立即退出窗口')
             window.quit()
             exit(0)
         else:
             if buff_count > 0:
-                buff_data = wt_imu.read(buff_count)
+                buff_data = imu_wt.read(buff_count)
                 for i in range(0, buff_count):
                     handleSerialData(buff_data[i])
-
 
 def threadLoopData(imu_ser):
     import threading
@@ -136,7 +131,6 @@ def threadLoopData(imu_ser):
     t.setDaemon(True)
     t.start()
 
-
 key = 0
 flag = 0
 buff = {}
@@ -144,7 +138,6 @@ angularVelocity = [0, 0, 0]
 acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
-
 
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
@@ -157,7 +150,7 @@ if __name__ == "__main__":
 
     # init UI
     window = tk.Tk()
-    window.title('wit imu')
+    window.title('IMU WIT')
     window.geometry('640x360')
     show_frame = tk.Frame(window)
     show_frame.config(height=345, width=625)
@@ -175,16 +168,16 @@ if __name__ == "__main__":
     baudrate = 9600
 
     try:
-        wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
-        if wt_imu.isOpen():
+        imu_wt = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
+        if imu_wt.isOpen():
             print("\033[32m串口打开成功...\033[0m")
         else:
-            wt_imu.open()
+            imu_wt.open()
             print("\033[32m打开串口成功...\033[0m")
     except Exception as e:
         print(e)
         print("\033[31m串口打开失败\033[0m")
         exit(0)
     else:
-        threadLoopData(wt_imu)
+        threadLoopData(imu_wt)
         startUI()

@@ -7,13 +7,12 @@ from sensor_msgs.msg import MagneticField
 def callback(data):
     rospy.loginfo(data)
 
-
 def showhelp():
     print("----------------------------")
-    print("0:exti cali mode")
+    print("0:exit cali mode")
     print("9:enter mag cali mode")
     print("h:show cmd help")
-    print("e:exti sys")
+    print("e:exit sys")
     print("v:show version")
     print("b:begin recording")
     print("s:stop recording")
@@ -51,11 +50,11 @@ if __name__ == "__main__":
             elif 'h' in string:
                 showhelp()
             elif 'e' in string:
-                print("exti sys\n")
+                print("exit sys\n")
                 exit(0)
             elif '0' in string:
-                set_pub.publish("exti")
-                print("exti cali mode")
+                set_pub.publish("exit")
+                print("exit cali mode")
             elif '9' in string:
                 set_pub.publish("mag")
                 print("enter mag cali mode")

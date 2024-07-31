@@ -13,20 +13,17 @@ from modbus_tk import modbus_rtu
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('linux默认串口为 /dev/ttyUSB0,windows中默认串口为COM3, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    print('Linux 默认串口为 /dev/ttyUSB0，Windows中默认串口为 COM3，若识别多个串口设备, 请在 launch 文件中修改 IMU 对应的串口')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
-
 
 # 校验
 def checkSum(list_data, check_data):
     return sum(list_data) & 0xff == check_data
 
-
 # 16 进制转 ieee 浮点数
 def hex_to_short(raw_data):
     return list(struct.unpack("hhhh", bytearray(raw_data)))
-
 
 # 处理串口数据
 def handleSerialData(raw_data):
@@ -85,20 +82,15 @@ def handleSerialData(raw_data):
             return
         pub_flag[0] = pub_flag[1] = pub_flag[2] = pub_flag[3] = True
 
-        
-
-
 def startUI():
     window.mainloop()
-
 
 def showText(text):
     show_text.delete(0.0, tk.END)  # 删除
     show_text.insert(tk.INSERT, text)  # 插入
 
-
-def loopData(wt_imu):
-    master = modbus_rtu.RtuMaster(wt_imu)
+def loopData(imu_wt):
+    master = modbus_rtu.RtuMaster(imu_wt)
     master.set_timeout(0.1)
     master.set_verbose(True)
     while True:
@@ -147,8 +139,6 @@ def loopData(wt_imu):
         magnetometer[0], magnetometer[1], magnetometer[2]
         )
             showText(text)
-    
-
 
 def threadLoopData(imu_ser):
     import threading
@@ -158,7 +148,6 @@ def threadLoopData(imu_ser):
     t.setDaemon(True)
     t.start()
 
-
 key = 0
 flag = 0
 buff = {}
@@ -167,7 +156,6 @@ acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
 pub_flag = [True, True, True, True]
-
 
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
@@ -180,7 +168,7 @@ if __name__ == "__main__":
 
     # init UI
     window = tk.Tk()
-    window.title('wit imu')
+    window.title('IMU Wit')
     window.geometry('640x360')
     show_frame = tk.Frame(window)
     show_frame.config(height=345, width=625)
@@ -198,16 +186,16 @@ if __name__ == "__main__":
     baudrate = 9600
 
     try:
-        wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
-        if wt_imu.isOpen():
+        imu_wt = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
+        if imu_wt.isOpen():
             print("\033[32mport open success...\033[0m")
         else:
-            wt_imu.open()
+            imu_wt.open()
             print("\033[32mport open success...\033[0m")
     except Exception as e:
         print(e)
         print("\033[31mport open failed\033[0m")
         exit(0)
     else:
-        threadLoopData(wt_imu)
+        threadLoopData(imu_wt)
         startUI()

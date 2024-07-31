@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
-  <name>wit_ros_imu</name>
-  <version>0.1.0</version>
-  <description>The wit_ros_imu package</description>
+  <name>ros_imu_wit</name>
+  <version>0.2.0</version>
+  <description>The ros_imu_wit package</description>
 
-  <maintainer email="kevin@wit-motion.com">kevin</maintainer>
+  <maintainer email="gouych13@icloud.com">hmxf</maintainer>
   <license>BSD</license>
   <url type="website">http://www.wit-motion.cn</url>
   <url type="bugtracker">http://www.wit-motion.cn</url>

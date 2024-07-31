@@ -1,4 +1,4 @@
-<!--imu ros 驱动-->
+<!--IMU ros 驱动-->
 <launch>
 	<!--IMU 型号，默认 normal
 		设备类型如果是 Modbus 协议的就填 modbus
@@ -24,14 +24,14 @@
 	
     <arg name="type" default="normal" doc="type [normal, modbus, hmodbus, can, hcan]"/>
 
-    <!-- imu 对应 python 文件 -->
-    <node pkg="wit_ros_imu" type="wit_$(arg type)_ros.py" name="imu" output="screen">
+    <!-- IMU 对应 python 文件 -->
+    <node pkg="ros_imu_wit" type="wit_$(arg type)_ros.py" name="imu" output="screen">
         <param name="port"               type = "str"    value="/dev/ttyUSB0"/>
         <param name="baud"               type = "int"    value="9600"/>
     </node>
 
 	<!--
-    <node pkg="wit_ros_imu" type="get_imu_rpy.py" name="get_imu" output="screen">
+    <node pkg="ros_imu_wit" type="get_imu_rpy.py" name="get_imu" output="screen">
     </node>
 	-->
 </launch>

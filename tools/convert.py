@@ -20,19 +20,17 @@ fd = open(convertfilename, 'w+')
 def checkSum(list_data, check_data):
     return sum(list_data) & 0xff == check_data
 
-
 def hex_to_short(raw_data):
     return list(struct.unpack("hhhh", bytearray(raw_data)))
 
-
 def ConvertData(val):
     global headflag, headindex, fd, msg, headmsg, key, raw_data
-
     raw_data[key] = val
     key += 1
-    if raw_data[0] != 0x55: key = 0
-    if key < 11: return
-
+    if raw_data[0] != 0x55:
+        key = 0
+    if key < 11:
+        return
     if checkSum(raw_data[0:10], raw_data[10]):
         if headindex == raw_data[1]:
             if headflag == 1:
@@ -64,7 +62,6 @@ def ConvertData(val):
             msg += "{:.0f}\t{:.0f}\t{:.0f}\t".format(val[0], val[1], val[2])
     key = 0
 
-
 f = open(filename, 'rb')
 try:
     while True:
@@ -78,7 +75,6 @@ try:
             ConvertData(val)
 except Exception as e:
     print(e)
-
 
 f.close()
 fd.close()

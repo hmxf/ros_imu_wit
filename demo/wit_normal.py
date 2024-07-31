@@ -8,20 +8,17 @@ import math
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('imu 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 imu 对应的串口')
+    print('IMU 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 IMU 对应的串口')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
     print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
-
 
 # 校验
 def checkSum(list_data, check_data):
     return sum(list_data) & 0xff == check_data
 
-
 # 16 进制转 ieee 浮点数
 def hex_to_short(raw_data):
     return list(struct.unpack("hhhh", bytearray(raw_data)))
-
 
 # 处理串口数据
 def handleSerialData(raw_data):
@@ -102,8 +99,6 @@ def handleSerialData(raw_data):
         magnetometer[0], magnetometer[1], magnetometer[2]
         ))
 
-
-
 key = 0
 flag = 0
 buff = {}
@@ -112,12 +107,11 @@ acceleration = [0, 0, 0]
 magnetometer = [0, 0, 0]
 angle_degree = [0, 0, 0]
 
-
 if __name__ == "__main__":
     python_version = platform.python_version()[0]
 
     find_ttyUSB()
-    print platform.system()
+    print(platform.system())
     if (platform.system().find("Linux")>=0):
         port = "/dev/ttyUSB0"
     else:
@@ -126,11 +120,11 @@ if __name__ == "__main__":
     baudrate = 9600
 
     try:
-        wt_imu = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
-        if wt_imu.isOpen():
+        imu_wt = serial.Serial(port=port, baudrate=baudrate, timeout=0.5)
+        if imu_wt.isOpen():
             print("\033[32m串口打开成功...\033[0m")
         else:
-            wt_imu.open()
+            imu_wt.open()
             print("\033[32m打开串口成功...\033[0m")
     except Exception as e:
         print(e)
@@ -140,14 +134,14 @@ if __name__ == "__main__":
 
         while True:
             try:
-                buff_count = wt_imu.inWaiting()
+                buff_count = imu_wt.inWaiting()
             except Exception as e:
                 print("exception:" + str(e))
-                print("imu 失去连接，接触不良，或断线")
+                print("IMU 失去连接，接触不良，或断线")
                 exit(0)
             else:
                 if buff_count > 0:
-                    buff_data = wt_imu.read(buff_count)
+                    buff_data = imu_wt.read(buff_count)
                     for i in range(0, buff_count):
                         handleSerialData(buff_data[i])
 
