@@ -16,10 +16,10 @@ from tf.transformations import quaternion_from_euler
 
 # 查找 ttyUSB* 设备
 def find_ttyUSB():
-    print('IMU 默认串口为 /dev/ttyUSB0, 若识别多个串口设备, 请在 launch 文件中修改 IMU 对应的串口')
-    #print('The default serial port of the IMU is /dev/ttyUSB0, if multiple serial port devices are identified, modify the serial port corresponding to the IMU in the launch file')
+    #print('IMU 默认串口为 /dev/imu_usb, 若识别多个串口设备, 请在 launch 文件中修改 IMU 对应的串口')
+    #print('The default serial port of the IMU is /dev/imu_usb, if multiple serial port devices are identified, modify the serial port corresponding to the IMU in the launch file')
     posts = [port.device for port in serial.tools.list_ports.comports() if 'USB' in port.device]
-    print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
+    #print('当前电脑所连接的 {} 串口设备共 {} 个: {}'.format('USB', len(posts), posts))
     #print('There are {} {} serial port devices connected to the current PC: {}'.format(len(posts), 'USB', posts))
 
 # 16 进制转 IEEE 浮点数
@@ -158,7 +158,7 @@ def callback(data):
     reset_mag_param_cmd = b'\xff\xaa\x01\x07\x00'
     set_rsw_demo_cmd = b'\xff\xaa\x02\x1f\x00'  #output time acc gyro angle mag
 
-    print('callback')
+    print('Callback')
     print(data)
     if "mag" in data.data:
         imu_wt.write(unlock_imu_cmd)
@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
     find_ttyUSB()
     rospy.init_node("imu")
-    port = rospy.get_param("~port", "/dev/ttyUSB0")
+    port = rospy.get_param("~port", "/dev/imu_usb")
     baudrate = rospy.get_param("~baud", 230400)
     # baudrate = 115200
     print("IMU Type: HCAN Port:%s baud:%d" %(port,baudrate))

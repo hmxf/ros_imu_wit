@@ -5,7 +5,7 @@ import struct
 argc = len(sys.argv)
 
 if argc < 2:
-    print('please input convert file name')
+    print('Please input convert file name')
     exit(1)
 filename = sys.argv[1]
 convertfilename = time.strftime("%Y%m%d%H%M%S", time.localtime()) + '.txt'
@@ -78,4 +78,4 @@ except Exception as e:
 
 f.close()
 fd.close()
-print('convert {} file finish, output {} file'.format(filename, convertfilename))
+print('Convert {} file finish, output {} file'.format(filename, convertfilename))

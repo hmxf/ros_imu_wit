@@ -26,8 +26,8 @@
 
     <!-- IMU 对应 python 文件 -->
     <node pkg="ros_imu_wit" type="wit_$(arg type)_ros.py" name="imu" output="screen">
-        <param name="port"               type = "str"    value="/dev/ttyUSB0"/>
-        <param name="baud"               type = "int"    value="9600"/>
+        <param name="port"               type = "str"    value="/dev/imu_usb"/>
+        <param name="baud"               type = "int"    value="115200"/>
     </node>
 
 	<!--

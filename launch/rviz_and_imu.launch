@@ -8,7 +8,7 @@
 		如果是CAN协议的就填can
 		如果是CAN高精度协议的填hcan
 		设备号/dev/ttyUSB0（脚本默认用的 /dev/ttyUSB0）为你电脑识别出来的数字
-		波特率根据实际使用设定，JY6x系列模块默认波特率为115200,CAN模块为230400，其他模块为9600
+		波特率根据实际使用设定，JY6x系列模块默认波特率为115200，CAN模块为230400，其他模块为9600
 		如果用户通过上位机修改了波特率，需要对应修改成修改后的波特率 
 	-->
 	
@@ -27,8 +27,8 @@
 
     <!-- IMU 对应 Python 文件 -->
     <node pkg="ros_imu_wit" type="wit_$(arg type)_ros.py" name="imu" output="screen">
-        <param name="port"               type = "str"    value="/dev/ttyUSB0"/>
-        <param name="baud"               type = "int"    value="9600"/>
+        <param name="port"               type = "str"    value="/dev/imu_usb"/>
+        <param name="baud"               type = "int"    value="115200"/>
     </node>
 
     <!-- 加载 rviz -->

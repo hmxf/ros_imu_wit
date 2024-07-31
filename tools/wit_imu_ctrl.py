@@ -29,7 +29,7 @@ if __name__ == "__main__":
     showhelp()
     while not rospy.is_shutdown():
         try:
-            string = raw_input("input cmd:")
+            string = input("input cmd:")
             if 'rate' in string:
                 set_pub.publish(string)
                 print("change " + string)
