@@ -119,8 +119,7 @@ def handleSerialData(raw_data):
                 #print('0x5F Check failure')
 
         else:
-            print("数据处理类没有提供 " + str(buff[1]) + " 的解析")
-            print("或数据错误")
+            #print("数据处理类没有提供 " + str(buff[1]) + " 的解析或数据错误")
             buff = {}
             key = 0
 

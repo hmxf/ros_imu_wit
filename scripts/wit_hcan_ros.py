@@ -84,8 +84,7 @@ def handleSerialData(raw_data):
             print(readval)
 
         else:
-            print("数据处理类没有提供 " + str(buff[1]) + " 的解析")
-            print("或数据错误")
+            #print("数据处理类没有提供 " + str(buff[1]) + " 的解析或数据错误")
             buff = {}
             key = 0
 
